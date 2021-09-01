@@ -32,7 +32,7 @@ type CropOptions struct {
 	W int `json:"w"` // Set width for cropping
 }
 
-type ExtendParams map[string]string
+type ExtendParams map[string]interface{}
 
 func (p ExtendParams) toCommandArgs() []string {
 	var args []string
@@ -53,8 +53,9 @@ func (p ExtendParams) toCommandArgs() []string {
 
 			args = append(args, "--"+k)
 
-			if len(v) > 0 {
-				args = append(args, v)
+			str := fmt.Sprintf("%v", v)
+			if len(str) > 0 {
+				args = append(args, str)
 			}
 		}
 	}
