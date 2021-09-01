@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gogap/config"
-	"github.com/gogap/go-wkhtmltox/wkhtmltox/fetcher"
+	"github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher"
 )
 
 type DataFetcher struct {

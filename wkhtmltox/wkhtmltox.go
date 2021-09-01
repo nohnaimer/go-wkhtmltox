@@ -13,7 +13,7 @@ import (
 	"github.com/gogap/config"
 	"github.com/pborman/uuid"
 
-	"github.com/gogap/go-wkhtmltox/wkhtmltox/fetcher"
+	"github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher"
 )
 
 type ToFormat string

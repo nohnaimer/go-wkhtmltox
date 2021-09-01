@@ -6,8 +6,8 @@ go-wkhtmltox
 ## Run at local
 
 ```bash
-> go get github.com/gogap/go-wkhtmltox
-> cd $GOPATH/src/github.com/gogap/go-wkhtmltox
+> go get github.com/nohnaimer/go-wkhtmltox
+> cd $GOPATH/src/github.com/nohnaimer/go-wkhtmltox
 > go build
 > ./go-wkhtmltox run -c app.conf
 ```
@@ -446,8 +446,8 @@ step 3: import driver and rebuild
 
 ```go
 import (
-	_ "github.com/gogap/go-wkhtmltox/wkhtmltox/fetcher/data"
-	_ "github.com/gogap/go-wkhtmltox/wkhtmltox/fetcher/http"
+	_ "github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher/data"
+	_ "github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher/http"
 )
 ```
 
@@ -457,7 +457,7 @@ import (
 
 # Use this package as libary
 
-Just import `github.com/gogap/go-wkhtmltox/wkhtmltox`
+Just import `github.com/nohnaimer/go-wkhtmltox/wkhtmltox`
 
 ```go
 htmlToX, err := wkhtmltox.New(wkHtmlToXConf)

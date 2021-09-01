@@ -14,8 +14,8 @@ RUN apt-get update \
     && mkdir -p $HOME/go \
 	&& export GOPATH=$HOME/go \
     && export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin \
-    && go get github.com/gogap/go-wkhtmltox \
-    && cd $GOPATH/src/github.com/gogap/go-wkhtmltox \
+    && go get github.com/nohnaimer/go-wkhtmltox \
+    && cd $GOPATH/src/github.com/nohnaimer/go-wkhtmltox \
     && go build \
     && mkdir -p /app \
     && cp go-wkhtmltox /app \
