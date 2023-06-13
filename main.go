@@ -5,13 +5,12 @@ import (
 	"os"
 
 	"github.com/gogap/config"
-	"github.com/nohnaimer/go-wkhtmltox/server"
-	"github.com/urfave/cli"
-)
 
-import (
-	_ "github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher/data"
-	_ "github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher/http"
+	"github.com/urfave/cli"
+	"go-wkhtmltox/server"
+
+	_ "go-wkhtmltox/wkhtmltox/fetcher/data"
+	_ "go-wkhtmltox/wkhtmltox/fetcher/http"
 )
 
 func main() {
@@ -29,16 +28,16 @@ func main() {
 	app.Usage = "A server for wkhtmltopdf and wkhtmltoimage"
 
 	app.Commands = cli.Commands{
-		&cli.Command{
-			Name:   "run",
-			Usage:  "run go-wkhtmltox service",
-			Action: run,
+		cli.Command{
+			Name:    "run",
+			Usage:   "run go-wkhtmltox service",
+			Action:  run,
+			Aliases: []string{"c"},
 			Flags: []cli.Flag{
 				&cli.StringFlag{
-					Name:    "config",
-					Usage:   "config filename",
-					Value:   "app.conf",
-					Aliases: []string{"c"},
+					Name:  "config",
+					Usage: "config filename",
+					Value: "app.conf",
 				},
 				&cli.StringFlag{
 					Name:  "cwd",

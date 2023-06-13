@@ -3,12 +3,12 @@ package http
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
 	"github.com/gogap/config"
-	"github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher"
+	"go-wkhtmltox/wkhtmltox/fetcher"
 )
 
 type HttpFetcher struct {
@@ -100,14 +100,19 @@ func (p *HttpFetcher) send(params Params) (data []byte, err error) {
 		return
 	}
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err = Body.Close()
+		if err != nil {
+			return
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
 		err = fmt.Errorf("[fetcher-http]: fetch url by %s failure <%s>, status code is %d", params.Method, params.URL, resp.StatusCode)
 		return
 	}
 
-	data, err = ioutil.ReadAll(resp.Body)
+	data, err = io.ReadAll(resp.Body)
 
 	for k, v := range params.Replace {
 		data = bytes.Replace(data, []byte(k), []byte(v), -1)

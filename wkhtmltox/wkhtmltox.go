@@ -13,7 +13,7 @@ import (
 	"github.com/gogap/config"
 	"github.com/pborman/uuid"
 
-	"github.com/nohnaimer/go-wkhtmltox/wkhtmltox/fetcher"
+	"go-wkhtmltox/wkhtmltox/fetcher"
 )
 
 type ToFormat string
@@ -335,10 +335,15 @@ func (p *WKHtmlToX) Convert(fetcherOpts FetcherOptions, convertOpts ConvertOptio
 		return
 	}
 
-	defer os.Remove(tmpfileName)
+	defer func(name string) {
+		err = os.Remove(name)
+		if err != nil {
+			return
+		}
+	}(tmpfileName)
 
 	var result []byte
-	result, err = ioutil.ReadFile(tmpfileName)
+	result, err = os.ReadFile(tmpfileName)
 
 	ret = result
 
@@ -346,13 +351,13 @@ func (p *WKHtmlToX) Convert(fetcherOpts FetcherOptions, convertOpts ConvertOptio
 }
 
 func (p *WKHtmlToX) fetch(fetcherOpts FetcherOptions) (data []byte, err error) {
-	fetcher, exist := p.fetchers[fetcherOpts.Name]
+	fetch, exist := p.fetchers[fetcherOpts.Name]
 	if !exist {
 		err = fmt.Errorf("fetcher %s not exist", fetcherOpts.Name)
 		return
 	}
 
-	data, err = fetcher.Fetch([]byte(fetcherOpts.Params))
+	data, err = fetch.Fetch([]byte(fetcherOpts.Params))
 
 	return
 }

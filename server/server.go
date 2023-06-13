@@ -4,19 +4,20 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 	"sync"
 	"sync/atomic"
 	"text/template"
 	"time"
 
+	"go-wkhtmltox/wkhtmltox"
+
 	"github.com/TV4/graceful"
 	"github.com/gogap/config"
 	"github.com/gorilla/mux"
-	"github.com/nohnaimer/go-wkhtmltox/wkhtmltox"
 	"github.com/phyber/negroni-gzip/gzip"
 	"github.com/rs/cors"
 	"github.com/spf13/cast"
@@ -171,7 +172,10 @@ func New(conf config.Configuration) (srv *WKHtmlToXServer, err error) {
 		Methods("GET", "HEAD").HandlerFunc(
 		func(rw http.ResponseWriter, req *http.Request) {
 			rw.Header().Set("Content-Type", "text/plain; charset=utf-8")
-			rw.Write([]byte("pong"))
+			_, err = rw.Write([]byte("pong"))
+			if err != nil {
+				return
+			}
 		},
 	)
 
@@ -285,7 +289,10 @@ func writeResp(rw http.ResponseWriter, convertArgs ConvertArgs, resp ConvertResp
 	}
 
 	if !respHelper.Holding() {
-		rw.Write(buf.Bytes())
+		_, err = rw.Write(buf.Bytes())
+		if err != nil {
+			return
+		}
 	}
 }
 
@@ -357,7 +364,7 @@ func loadTemplates(tmplsConf config.Configuration) (err error) {
 		tmpl := template.New(name).Funcs(funcMap)
 
 		var data []byte
-		data, err = ioutil.ReadFile(file)
+		data, err = os.ReadFile(file)
 
 		if err != nil {
 			return
@@ -408,7 +415,10 @@ func (p *RespHelper) Holding() bool {
 }
 
 func (p *RespHelper) Write(data []byte) error {
-	p.rw.Write(data)
+	_, err := p.rw.Write(data)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
